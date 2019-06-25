@@ -1,0 +1,46 @@
+    web应用
+由多个静态资源和动态web资源组成
+	如 html，css,js文件
+	jsp文件，java程序，支持的jar包
+	配置文件等
+
+	组织这些web应用的文件，称为web应用所在目录
+
+web应用开发好后，若想供外界访问，需要将web应用所在目录交给web服务器管理，
+这个过程称为 虚拟目录的映射 
+
+在tomcat服务器的配置文件 
+	第一种：
+		server.xml  --><host>中  配置 <context path="/itcast" doBase="c:\news">  
+		context就是web应用,path就是虚拟目录，供浏览器访问，实际是访问的doBase的路径
+	
+		这种方式不能被自动加载，需要重启服务器才能加载到，不适合生产环境
+
+	第二种：
+		在tomcat--> conf --> context.xml--> <context>标签中配置
+		
+		这种配置信息被服务器中所有web应用共享
+
+	第三种：
+		在在tomcat--> conf -->Catalina -->localhost -->中 新建一个以.xml结尾的文件
+		文件名作为web应用的虚拟目录（对外访问路径）
+		<Context docBase="D:\demo"/>
+		context中不用配 path属性，因为xml文件名称就是对外访问路径  虚拟目录的映射
+
+
+
+web应用的组成结构
+	html,jsp,css,js文件等 放在web应用的根目录下，根目录下的文件外界可以直接访问
+	java类，jar包，web应用的配置文件放在 WEB-INF 下，外界无法直接访问，由web服务器负责调用	
+		
+	WEB-INF目录
+		classes目录  （java类）
+		lib目录      （Java类运行所需的jar包）
+		web.xml      （web应用的配置和管理文件） web应用中最重要的文件
+
+
+
+%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;D:\WorkApp\OracleIns\product\11.2.0\dbhome_1\bin;
+%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;
+%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;%SYSTEMROOT%\System32\OpenSSH\;
+D:\WorkApp\svn\bin;%MAVEN_HOME%\bin;D:\WorkApp\MySql\MySql_Server\bin;D:\WorkApp\Git\Git\cmd;

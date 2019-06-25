@@ -1,0 +1,108 @@
+		Nginx
+what?
+	服务器软件，其最主要，最基本的功能是可以与服务器硬件结合，让程序员可以将程序
+	放在Nginx服务器上，将程序发布出去。
+	
+	可以通过反向代理来实现负载均衡
+	
+	Nginx是一种高性能的HTTP和反向代理服务器，同时也是一个代理邮件服务器。
+	也就是说，Nginx上可以 发布网站，负载均衡，邮件服务器
+
+	负载均衡：
+		当同时又N多用户访问服务器的时候，为了减轻服务器的压力，
+		我们需要将用户分别引入服务器集群中的各个服务器，分担服务器的压力，
+		加快响应速度，避免服务器崩溃
+
+		使用Nginx服务器实现负载均衡的时候，用户的访问首先会访问到Nginx服务器，
+		然后Nginx服务器再从服务器集群中选择压力较小的服务器，然后将该访问请求引向
+		该服务器。
+		若集群中某个服务器崩溃，那从待选服务器列表中将崩溃的服务器删除。
+		
+
+
+		实现负载均衡的方式：
+			1.硬件
+				优点：效率高
+				缺点：成本高
+			2.软件
+				优点：成本低
+				缺点：效率较低
+
+			Nginx是服务器软件，代码偏计算机底层，其执行效率也是非常高的
+
+Nginx与其他服务器的性能比较
+	iis:只能在windows上运行 ，windows性能不如Linux服务器的
+	
+	tomcat:tomcat服务器面对的Java语言，是一种重量级的服务器
+
+	nignx:是轻量级的服务器，  tomcat与nignx不具备可比性
+
+	Apache:优点很多，比如 稳定，开源，跨平台，但是不支持高并发
+
+	nginx能支持处理百万级的tcp连接，10w以上的并发连接，并且是一个很好的跨平台服务器（windows,linux,mac..）
+
+
+Nginx优点：
+	实现高并发，部署简单，内存消耗少，成本低等等
+
+Nginx缺点：
+	rewrite功能不够强大，模块没有Apache的多
+
+
+在linux下 安装nginx 的问题
+
+	1.缺少gcc环境    yum -y install gc++
+	2.缺少zlib库文件  yum -y install zlib zlib-devel
+	3.缺少pcre库    yum -y install pcre pcre-devel
+	4.防火墙问题
+
+
+操作系统的选择
+
+	不同系统下的nginx服务器的对比
+
+	windows：效率略低
+
+	Linux：效率高  Cent OS
+
+负载均衡策略：
+
+	1.轮询(默认负载均衡方式)  
+
+	2.权重 在upstream-> server 后 加 weight=2   默认weight值为1
+	
+	3.least_conn：把请求转发给连接数较少的后端服务器。
+			适合请求处理时间长短不一造成服务器过载的情况
+			
+			upstream-->头行 加入 least_conn;
+
+	4.ip_hash
+
+	5.第三方策略：需要安装第三方插件
+		1.fair:按照服务器端的响应时间来分配请求，响应时间短的优先分配
+			upstream-->最后行  加入 fair;
+		2.url_hash:
+
+			upstream-->头行加入 hash $request_url  实现每隔url定向到同一个后端服务器
+	
+
+upStream模块：
+	
+	是nginx服务器的一个重要模块
+	upstream模块实现在轮询和客户端ip之间实现后端的负载均衡。
+	常用的指令：
+		ip_hash 指令
+		server 指令
+		upstream 指令
+
+	ip_hash指令：
+		相同的客户端的请求一直发送到相同的服务器，
+			以保证session会话，这样可以解决session不能跨服务器的问题
+		
+		设置步骤：
+			在配置文件 http->upstream_myproject的开头处，加 ip_hash;
+		
+		注意：1.  1.3.1之前版本，不能在ip_hash中使用权重weight
+		      2.  ip_hash不能与backup同时是使用
+		      3.  ip_hash策略适合有状态服务，比如session
+		      4.  当有服务需要剔除时，必须手动down掉		

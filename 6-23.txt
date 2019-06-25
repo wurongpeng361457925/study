@@ -1,0 +1,114 @@
+web服务器
+	作用：接受客户端的请求，给客户端做出响应
+	
+			tomcat(apache):应用最广的web服务器 (web服务器和jsp/Servlet容器于一身)
+			
+			JBoss(Redhat)：支持javaee，应用比较广
+			
+			GlassFish(Oracle)：Oracle开发javaweb服务器，应用不是很广
+			
+			Resin(Caucho)：支持javaee，应用越来越广
+			
+			Weblogic(Oracle)：收费，支持javaee，适合大型项目
+			
+			Websphere(IBM)：收费，支持javaee，适合大型项目
+			
+			(支持javaee规范的都是EJB容器(EJB：企业级的javabean，重量级))
+	
+	tomcat：
+		tomcat也称为Catalina
+		tomcat7支持Servlet3.0规范
+		tomcat6支持Servlet2.5规范 
+		
+		安装版：一台电脑只能安装一个tomcat
+		解压版：无需安装，解压即可使用。解压多少都可以（常用）
+		
+		启动：
+			win系统：bin目录下 startup.bat
+			Linux系统：bin目录下 starup.sh
+			
+			问题：点击startup.bat后窗口一闪就消失，检查JAVA_HOME环境变量配置是否正确
+					win系统检查JAVA_HOME : cmd-->set JAVA_HOME
+					Linux系统检查JAVA_HOME : echo $JAVA_HOME
+			
+		本地访问访问：http://localhost:8080
+						或者
+					  http://127.0.0.1:8080
+					  
+	tomcat配置文件：
+		conf目录
+			server.xml (配置端口号)
+			
+	tomcat目录
+		bin ：二进制文件
+		conf：配置目录
+		lib :tomcat运行所需要的jar包
+		logs：日志文件 
+		temp：运行产生的临时文件
+		webapps：项目存放位置
+		work:tomcat生成的
+			
+	web应用：
+		在webapps目录下，创建一个目录(命名必须不包含中文和空格， 这个目录称为项目路径)
+		
+		
+		WEB-INF目录下的东西不能直接访问
+		
+	tomcat运行程序 只需要静态资源，jar包和class文件 不用整个项目都放到tomcat的webapps中
+	
+	
+	配置外部应用：
+		把放在webapps下的项目，放到其他的地方
+		两种方式：
+			一. 
+				conf/server.xml   找到<Host>元素，在其中添加 <Context>标签
+				<Host name="localhost" appBase="webapps" uppackWARs="true" autoDeploy="true">
+					<Context path="demo" docBase="C:/hello">
+				</Host>
+					(1)path：指定当前应用的名称
+					(2)docBase:指定应用的物理位置
+					(3)浏览器访问路径：http://localhost:8080/demo/index.html
+			
+			二. 在conf/catalina/localhost  下创建xxx.xml文件,  文件中添加<Context docBase="D:/demo">
+				xxx.xml文件 相当于 path(项目访问名)  docBase相当于项目的物理存放位置
+				
+				
+				
+				
+	server.xml 结构
+		<?xml version='1.0' encoding='utf-8'?>
+		<Server port="8005" shutdown="SHUTDOWN">
+			<Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+			<Listener className="org.apache.catalina.core.JasperListener" />
+			<Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+			<Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
+			<Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+			<GlobalNamingResources>
+				<Resource name="UserDatabase" auth="Container"
+				  type="org.apache.catalina.UserDatabase"
+				  description="User database that can be updated and saved"
+				  factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+				  pathname="conf/tomcat-users.xml" />
+				</GlobalNamingResources>
+
+			<Service name="Catalina">
+			
+				<!-- connector 相当于服务员 -->
+				<Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />
+				<Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
+				
+				<!-- 
+					engine真正干活的 旗下可以有多个Host，
+					每个Host都有自己的目录，目录下可以放多个项目(Context标签表示一个项目)，
+					只能有个ROOT项目，这个ROOT项目不用输入项目名就可以访问
+				-->
+				<Engine name="Catalina" defaultHost="localhost">
+					<Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
+					<Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true" xmlValidation="false" xmlNamespaceAware="false"></Host>
+					<Host name="" appBase="" unpackWARs="" autodeploy=""><!-- appBase，指定主机目录，每个主机目录下都有一个root目录，访问root中的项目地址中不用输入项目名 -->
+						<Context ><!-- 一个context表示一个项目 -->
+					</Host>
+						
+				</Engine>
+			</Service>
+		</Server>

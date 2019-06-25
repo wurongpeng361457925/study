@@ -1,0 +1,33 @@
+                   Spring
+Spring的核心容器  Spring Core，提供了Spring框架的基本功能
+      主要组件：BeanFactory，是工厂模式的实现，使用控制反转的模式将应用程序的配置和依赖性规范与实际应用程序的代码相分开
+					Spring Context，应用上下文。是一个配置文件，向Spring框架提供上下文信息。  Spring Context 包含了一些企业服务，JNDI，EJB,Email，国际化，校验和调度等功能
+					Spring AOP,通过配置管理特性，直接将面向切面的功能提升到了Spring框架中。  可以使Spring 管理的任何bean都支持AOP功能
+					
+IOC:对于Spring 框架来说，就是由Spring来负责控制对象的生命周期和对象间的关系；
+
+
+AOP:
+	切面：Aspect    关注点的模块化，关注点可能会横切多个对象  加入的切面类  例如日志类
+	连接点：join Point   是程序执行过程中的某个特定的点，例如某个方法调用的时候，或者处理异常的时候。在spring 中，一个连接点总是表示
+				一个方法的执行，通俗的说就是加入切点的哪个点
+	通知：Adivce   在特定的切面上某个点执行的动作   包括由around,before,after，excution等通知，以拦截器为通知模型，且维护一个以拦截点为中心的拦截去链
+	
+	切入点：Point Cut  通知和一个切入点表达式并联，并在满足这个切入点的连接点上运行，切入点表达式如何和连接点匹配，是AOP的核心
+					Spring是默认使用AspectJ切入语法
+					
+	引入：Introduction  是给一个类声明额外的方法和属性  Spring允许引入新的接口到被代理的对象			
+	目标对象：target object 是被一个或多个切面所通知的对象  这个对象永远是个被代理的对象
+	AOP代理：AOP Proxy   AOP框架所创建的对象   用来实现切面契约   Spring中 AOP代理可以是AOP动态代理 或者CGLIB动态代理
+	织入：weaving  是把切面连接到其他的应用程序类型或对象之上 并创建一个被通知的对象，这些可以在被编译的时候，被加载的时候，被运行时完成
+				spring 在运行的时候完成织入	
+				
+				
+Spring IOC的原理是利用了java的反射机制
+		Java反射机制：
+				Java语言允许通过程序化的方式间接对class的对象实例操作，class文件由类装载器装载后，在JVM中将形成一份描述class结构的元信息对象
+				，通过该元信息对象可以获知class的结构信息，如构造函数，属性和方法等等
+		
+					
+					
+ 

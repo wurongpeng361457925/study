@@ -1,0 +1,15 @@
+设置tomcat 启动时间(默认45秒超时)
+ 方法1： 双击server，修改timeouts参数
+ 方法2： 修改eclipse/idea IDE工具 workspace\.metadata\.plugins\org.eclipse.wst.server.core\servers.xml文件
+			把start-timeout="45"改为更大的值即可
+			
+			
+http://localhost:8080/uop-web/uop/home.do
+
+
+<iframe></iframe>:用于定义内联框架
+	<iframe src="https://www.taobao.com" width="1200" height="500"></>
+	
+java.sql
+	提供使用javaTM编程语言访问并处理存储在数据源(通常是一个关系数据库)中的数据API。
+	此API包括一个框架，凭借此框架可以动态的安装不同的驱动程序来访问不同的数据源

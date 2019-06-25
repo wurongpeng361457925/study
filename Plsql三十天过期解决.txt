@@ -1,0 +1,15 @@
+一、win+R运行窗口
+
+二、输入cmd进入命令窗口
+
+三、命令窗口中输入 regedit
+
+四、HKEY_CURRENT_USER\Software\Allround Automations
+
+五、删除Allround Automations
+
+六、HKEY_CURRENT_USER\Software\Microsoft\Security
+
+七、删除Security
+
+八、重新登陆PL/SQL Develope

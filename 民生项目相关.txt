@@ -1,0 +1,3 @@
+民生银行监控测试环境：
+	197.3.179.112：9000/SOAM/oauth/login
+	qianlesheng/cmbc@95568

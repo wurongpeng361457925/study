@@ -1,0 +1,66 @@
+																		Java异常
+异常机制已称为判断一门编程语言是否成熟的标准。
+		好处：异常机制可以使程序中的异常处理代码和正常业务代码分离，保证程序代码更加优雅，同时也提高了程序的容错性，健壮性
+		
+java的异常机制主要依赖于：
+		try,  		（后面紧跟{},花括号不可以省略，这里放的是可能发生异常的代码）
+		catch,    （catch后对应异常类型和一个代码块，表明该catch块用于处理这种类型的代码块）
+ 		finally,    （用于回收在try块中打开的物理资源，异常机制保证finally块总被执行）
+		throws,    （用于该方法可能抛出的异常，可以是多个）
+		throw      （可单独作为语句使用，抛出一个具体的异常对象）
+		这五个关键字
+		
+		
+Java将异常分为两种：
+	Checked异常  （在编译阶段处理的异常，有Checked异常，不能通过javac编译成class文件）
+	RunTime异常    （可以通过编译，此类异常出现在在运行时）
+	
+当程序运行出现意外情形时，系统将自动生成一个Exception对象来通知程序，从而实现“业务功能代码”和“错误处理代码”分离
+Java中的具体流程：
+	若执行try块中的业务代码时出现异常，系统自动生成一个异常对象，该异常对象被提交给
+	Java运行时环境，这个过程称为抛出异常（throw）
+	
+	当Java 运行时环境收到异常对象时，会寻找能处理该异常对象的catch块，若找到合适的catch块，则把异常对象交给该catch块处理
+	这个过程称为捕获异常（catch）
+	若Java运行时环境找不到捕获异常的catch块，则运行时环境终止，Java程序也将推出！
+	
+	使用finally块回收物理资源（数据库连接，网络连接，磁盘文件等，这些资源必须显示回收，不能通过垃圾回收机制回收）
+	
+	注意：1.不管程序代码是否处于try块，包括catch块中的代码，只要执行该代码块时出现了异常，系统总会自动生成一个异常对象
+				若程序未给此程序定义任何的catch块，则Java运行时环境找不到处理该异常的catch块，程序就在此推出。
+				（try{}catch块相当于提高了程序的容错性 try块中声明的变量是代码块内局部变量，只在该try块中有效，catch块中不能访问）
+			 2.catch块中的异常类型应该按照子类到父类的顺序排序catch块，否则将出现编译错误 Exception xxx exception has already been caught
+			 3. java 7以后，每个catch块中可以捕获多种类型的异常
+						异常之间用 | 竖线隔开，捕获多种类型的异常时，异常变量由隐式的final修饰
+			4.异常处理语法结构中，try块是必须的，后面可以选catch块 或者finally块（或二者都选），但try块不能独立存在
+			5.若执行catch块中由return语句，先执行finally块，再执行return语句。
+						除非catch块中有System.exit(1)退出虚拟机的语句，finally块才不被执行
+			6.若finally块中有return,throw等导致方法终止的语句，则finally块终止当前方法，系统不会调回去执行try块，catch块里的后续代码
+			7.Java7开始，try语句块增加了自动关闭资源的功能   语法try(){}    
+				  要求：被关闭的资源类必须实现AutoCloseable或者Closeable 接口，这两个接口都要实现close()方法
+							AutoCloseable是Closeable的父接口，其close()方法声明抛出Exception
+							Closeable接口    其close()方法声明抛出IOException
+			
+				
+java把所有的非正常情况分为两种：异常Exception  和 错误 Error      ，二者都是继承Throwable父类
+		Error错误：一般指与虚拟机相关的问题，如系统崩溃，虚拟机错误，threadDeath等，这种错误将直接导致程序中断，所以无法捕获或恢复
+						通常程序无法处理这些错误，因此不用试图使用catch块来捕获Error对象。在定义该方法时，也无须在其throws子句中声明该
+						方法可能抛出Error及其任何子类。
+						
+		常见异常：
+				IndexOutOfBoundsException
+				NumberFormatException
+				ArithmeticException
+				
+				
+访问异常信息：
+	若程序需要在catch块中访问异常对象的相关信息，可以通过访问catch块后的异常形参来获得。
+	当Java运行时决定调用某个catch块来处理该异常对象时，会将异常对象赋给catch块后的异常参数，程序即可通过该参数获得异常的相关信息
+
+所有的异常对象都包含了如下几个常用方法：
+	getMessage()   返回该异常的详细描述字符串
+	getStackTrace()   将该异常的跟踪栈信息输出到标准错误输出
+	printStackTrace(PrintStream s)   将该异常的跟踪栈信息输出到指定输出流
+	getStackTrace()  返回该异常的跟踪栈信息
+	
+	

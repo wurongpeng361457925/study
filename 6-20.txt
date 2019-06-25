@@ -1,0 +1,53 @@
+
+-------------------------------------------------------------------------------------------------
+
+request.getSchema() 返回当前连接用的协议；一般应用返回http,SSL返回https
+在程序中的应用：
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + 
+		request.getServerName() + ":" + request.getServerPort + path + "/"
+		<base href = "<%=basePath%>">
+		
+request常用用法：
+	request.getSchema() 返回当前页面使用的协议 ，http或https
+	request.getServerName() 返回当前页面所在的服务器的名字
+	request.getServerPort() 返回当前页面所在的服务器使用的端口，就是80
+	request.getContextPath() 返回当前页面所在的应用的名字
+	
+
+-------------------------------------------------------------------------------------------------
+	
+swift  patrol  jetty   zabbix   weblogic   jms
+cmdb.driver   hive.driver    webservice
+
+-------------------------------------------------------------------------------------------------
+
+maven工程对于Java扩展包中的类是没有引入的，需要手动引入
+在pom.xml中添加servlet-api的依赖
+<dependency>
+	<groupId>javax.servlet</groupId>
+	<artifactId>javax.servlet-api</artifactId>
+	<version>3.1.0</version>
+</dependency>
+
+-------------------------------------------------------------------------------------------------
+
+patrol:是实现对网络主机监控管理操作的核心部分
+	工作空间区
+	知识模块区（KM）
+	系统代理（agent）
+	
+
+-------------------------------------------------------------------------------------------------
+
+maven:
+clean deploy: 复制最终的包到远程仓库，共享给其他开发人员和项目
+
+李庚
+-------------------------------------------------------------------------------------------------
+项目启动：
+
+
+	
+
+	
