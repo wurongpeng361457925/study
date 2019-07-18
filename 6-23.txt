@@ -106,7 +106,7 @@ web服务器
 					<Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
 					<Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true" xmlValidation="false" xmlNamespaceAware="false"></Host>
 					<Host name="" appBase="" unpackWARs="" autodeploy=""><!-- appBase，指定主机目录，每个主机目录下都有一个root目录，访问root中的项目地址中不用输入项目名 -->
-						<Context ><!-- 一个context表示一个项目 -->
+						<Context path="/xxx" docBase="F:\demo" /><!-- 一个context表示一个项目 path:用来配置虚拟目录  docBase:虚拟目录对应着硬盘上的web应用所在目录 -->
 					</Host>
 						
 				</Engine>
