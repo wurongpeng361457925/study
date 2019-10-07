@@ -1,3 +1,37 @@
+git优势： 
+	本低版本控制 重写提交说明
+	
+分支系统：branch
+	
+增量  全量
+	git是全量 ：每一个版本都包含全部的文件  好处：时刻保持数据的完整性
+	svn是增量： 每一个版本只包含修改的文件
+	
+git的三个区
+	(已管理)
+	工作区 
+		add 到
+	暂存区
+		commit 到
+	对象区
+	
+git的三种状态
+	已修改  --> modified
+	已暂存  --> staged
+	已提交	--> commited
+
+git 设置邮箱，账户名  三种方式  global,system,local
+	1.global:给整个计算机一次性设置
+	2.system:给当前用户一次性设置  ~.gitconfig
+	3.local:给当前项目一次性设置  .git/config
+	可以直接打开文件编辑用户名和email
+	优先级：3>2>1  
+
+git 修改对象区内容，文件会重新回到工作区
+checkout 命令   -->  撤销对对象区的修改 ,文件再次回到修改前内容，回到对象区 
+
+cached,reset命令 --> 从暂存区回到工作区
+	
 1.新建文件夹
 
 2.进入文件夹-->右键git bash here，输入git init  会生成.git文件（隐藏文件）
