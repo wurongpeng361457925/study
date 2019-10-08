@@ -31,6 +31,31 @@ git 修改对象区内容，文件会重新回到工作区
 checkout 命令   -->  撤销对对象区的修改 ,文件再次回到修改前内容，回到对象区 
 
 cached,reset命令 --> 从暂存区回到工作区
+
+删除命令：
+	git rm 文件.后缀名  -->删除文件 从对象区到暂存区  ，commit提交删除操作  reset 
+		撤销删除命令：1.恢复到工作区 git reset head 文件名.后缀名 
+					  2.撤销删除动作 git checkout -- 文件名.后缀名
+	
+	rm   --> 删除文件， 从对象区到工作区，需要add 删除操作到暂存区，再commit删除操作到对象区
+	
+注释重写：
+	git commit --amend -m '注释内容'
+	
+忽略文件
+	.gitignore -->把要忽略提交的文件名添加到.gitignore文件中    默认忽略空目录
+	通配符 --> *任意字符   !非  目录名/    demo/**/ -->忽略demo目录下任意级目录  
+
+分支branch：
+	查看分支：git branch
+	创建分支：git branch 分支名
+	切换分支：git checkout 分支名
+	创建并切换：git checkout -b 分支名
+	删除分支: git branch -d 分支名 不能删除情况 --> 1.自己不能删自己 2.分支包含未合并的内容
+				删除分支之前建议先合并分支
+	
+	合并分支：git merge 分支名
+	强行删除分支：git branch -D 分支名
 	
 1.新建文件夹
 
