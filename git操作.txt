@@ -1,5 +1,5 @@
 git优势： 
-	本低版本控制 重写提交说明
+	本地版本控制 重写提交说明
 	
 分支系统：branch
 	
@@ -21,6 +21,7 @@ git的三种状态
 	已提交	--> commited
 
 git 设置邮箱，账户名  三种方式  global,system,local
+		git config --global/system/local user.name "your name"
 	1.global:给整个计算机一次性设置
 	2.system:给当前用户一次性设置  ~.gitconfig
 	3.local:给当前项目一次性设置  .git/config
@@ -40,7 +41,7 @@ cached,reset命令 --> 从暂存区回到工作区
 	rm   --> 删除文件， 从对象区到工作区，需要add 删除操作到暂存区，再commit删除操作到对象区
 	
 注释重写：
-	git commit --amend -m '注释内容'
+	git commit --amend -m '注释内容'   修改的是最近一次的commit注释
 	
 忽略文件
 	.gitignore -->把要忽略提交的文件名添加到.gitignore文件中    默认忽略空目录
