@@ -19,6 +19,13 @@ git的三种状态
 	已修改  --> modified
 	已暂存  --> staged
 	已提交	--> commited
+	
+	先add再commit --> git commit -am '注释内容'
+	回退到上一次commit --> git reset --hard head^   ^表示一次  ^^表示两次...
+	回退到上n次 commit --> git reset --hard head~n  
+	回退到指定commit，通过sha1值  --> git reset --hard sha1值
+	
+	查看git日志所有记录  git reflog
 
 git 设置邮箱，账户名  三种方式  global,system,local
 		git config --global/system/local user.name "your name"
@@ -46,8 +53,11 @@ cached,reset命令 --> 从暂存区回到工作区
 忽略文件
 	.gitignore -->把要忽略提交的文件名添加到.gitignore文件中    默认忽略空目录
 	通配符 --> *任意字符   !非  目录名/    demo/**/ -->忽略demo目录下任意级目录  
-
-分支branch：
+ 
+分支branch： 是一个commit链，一条工作记录线
+				head：指向当前分支(head->分支名)
+				分支名(master)指向当前提交(commit)
+				
 	查看分支：git branch
 	创建分支：git branch 分支名
 	切换分支：git checkout 分支名
@@ -57,6 +67,19 @@ cached,reset命令 --> 从暂存区回到工作区
 	
 	合并分支：git merge 分支名
 	强行删除分支：git branch -D 分支名
+	
+快照：每次提交后的所有文件
+	包含-->sha1 
+	
+分支合并与冲突
+	若一个分支(dev)考前，另一个分支靠后，在不冲突的前提下，master可以通过merge直接追赶上dev，合并之后master同样有dev的提交
+	这个追赶的动作称为 fast forward，其本质是指针的移动
+	1.两个分支在fast forward之后，会归为一处commit
+	2.fast forward之后 会丢失分支信息
+	
+	git在merge时，默认使用fast forward   也已禁止使用fast forward 命令-->git merge --no-ff
+	
+	
 	
 1.新建文件夹
 
