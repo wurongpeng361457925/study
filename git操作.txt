@@ -20,12 +20,12 @@ git的三种状态
 	已暂存  --> staged
 	已提交	--> commited
 	
-	先add再commit --> git commit -am '注释内容'
+	先add再commit --> git commit -am '注释内容' (第一次创建的时候此命令不能使用，之后提交就可以了)
 	回退到上一次commit --> git reset --hard head^   ^表示一次  ^^表示两次...
 	回退到上n次 commit --> git reset --hard head~n  
 	回退到指定commit，通过sha1值  --> git reset --hard sha1值
 	
-	查看git日志所有记录  git reflog
+	查看git日志所有记录 --> git reflog  ,再通过git reset --hard sha1 进行回退commit  ,需要有良好的日志习惯
 
 git 设置邮箱，账户名  三种方式  global,system,local
 		git config --global/system/local user.name "your name"
@@ -62,6 +62,25 @@ cached,reset命令 --> 从暂存区回到工作区
 	创建分支：git branch 分支名
 	切换分支：git checkout 分支名
 	创建并切换：git checkout -b 分支名
+		切换分支前		
+			stash:保存现场
+				场景：某个功能未开发完，就需要切换分支，建议 1.先保存当前分支现场 2.切换
+				
+					1.建议(规范): 在功能没有开发完毕之前，不要commit
+					2.规定(必须): [前提：两个分支没有在同一个commit点,若在同一个commit点，则可以切换]
+									在没有commit之前，不能checkout切换分支 
+									
+				保存现场 --> git stash  (保存stash现场后，未add的内容会被隐藏)
+				查看现场 --> git stash list
+				还原现场 --> git stash pop (默认还原最近一次，pop:还原的现场，并将保存的现场删除)
+											可以手动删除 git stash drop stash{0}
+							 git stash apply(还原内容，不删除原保存的现场)
+							 可以指定还原某一次现场 --> git stash apply stash@{0}
+							 冲突 ---> 保存stash现场未add的内容后，又对保存的未add内容进行修改并commit了，
+										会产生冲突
+											解决冲突 --> 手动解决冲突
+							 
+	重命名分支 git branch -m cur分支名 rename
 	删除分支: git branch -d 分支名 不能删除情况 --> 1.自己不能删自己 2.分支包含未合并的内容
 				删除分支之前建议先合并分支
 	
@@ -72,15 +91,18 @@ cached,reset命令 --> 从暂存区回到工作区
 	包含-->sha1 
 	
 分支合并与冲突
-	若一个分支(dev)考前，另一个分支靠后，在不冲突的前提下，master可以通过merge直接追赶上dev，合并之后master同样有dev的提交
+	若一个分支(dev)考前，另一个分支(master)靠后，在不冲突的前提下，master可以通过merge直接追赶上dev，
+	合并之后master同样有dev的提交
 	这个追赶的动作称为 fast forward，其本质是指针的移动
-	1.两个分支在fast forward之后，会归为一处commit
-	2.fast forward之后 会丢失分支信息
-	
+		1.两个分支在fast forward之后，会归为一处commit
+		2.fast forward之后 会丢失分支信息
+		
 	git在merge时，默认使用fast forward   也已禁止使用fast forward 命令-->git merge --no-ff
 	
-	
-	
+checkout: git checkout sha1值   版本穿梭(游离状态)
+		1.
+
+				
 1.新建文件夹
 
 2.进入文件夹-->右键git bash here，输入git init  会生成.git文件（隐藏文件）
