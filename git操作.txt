@@ -20,7 +20,9 @@ git的三种状态
 	已暂存  --> staged
 	已提交	--> commited
 	
-	先add再commit --> git commit -am '注释内容' (第一次创建的时候此命令不能使用，之后提交就可以了)
+	add和commit组合--->先add再commit --> git commit -am '注释内容' 
+		(第一次创建的时候此命令不能使用，之后提交就可以了)
+		
 	回退到上一次commit --> git reset --hard head^   ^表示一次  ^^表示两次...
 	回退到上n次 commit --> git reset --hard head~n  
 	回退到指定commit，通过sha1值  --> git reset --hard sha1值
@@ -73,14 +75,14 @@ cached,reset命令 --> 从暂存区回到工作区
 				保存现场 --> git stash  (保存stash现场后，未add的内容会被隐藏)
 				查看现场 --> git stash list
 				还原现场 --> git stash pop (默认还原最近一次，pop:还原的现场，并将保存的现场删除)
-											可以手动删除 git stash drop stash{0}
-							 git stash apply(还原内容，不删除原保存的现场)
+											
+							 git stash apply(还原内容，不删除原保存的现场  可以手动删除 git stash drop stash{0})
 							 可以指定还原某一次现场 --> git stash apply stash@{0}
 							 冲突 ---> 保存stash现场未add的内容后，又对保存的未add内容进行修改并commit了，
 										会产生冲突
 											解决冲突 --> 手动解决冲突
 							 
-	重命名分支 git branch -m cur分支名 rename
+	重命名分支 git branch -m old分支名 new分支名
 	删除分支: git branch -d 分支名 不能删除情况 --> 1.自己不能删自己 2.分支包含未合并的内容
 				删除分支之前建议先合并分支
 	
@@ -97,11 +99,45 @@ cached,reset命令 --> 从暂存区回到工作区
 		1.两个分支在fast forward之后，会归为一处commit
 		2.fast forward之后 会丢失分支信息
 		
-	git在merge时，默认使用fast forward   也已禁止使用fast forward 命令-->git merge --no-ff
+	git在merge时，默认使用fast forward   
+	也已禁止使用fast forward 命令-->git merge 要合并的分支名 --no-ff
 	
 checkout: git checkout sha1值   版本穿梭(游离状态)
 		1.
+tag标签： 标签适用与整个项目的，与分支没关系，在a分支打的标签，其他分支亦可以查看和删除操作
+	创建标签  ---> git tag v1.0
+				   git tag -v2.0 标签名 -m "名称or注释"
+	查看标签  ---> git tag
+			模糊查询 ---> git tag -l 'v*'
+	删除标签  ---> git tag -d v1.0
+	
+追责 blame： 查看a.txt的所有提交sha1值，以及每一行的作者(user)
+	git blame a.txt
+	
+差异性：diff  (linux命令)
+	diff 比的是文件本身
+	diff a.txt b.txt  
+	diff -u a.txt b.txt 
+		显示结果：
+			--- a.txt       2019-10-14 23:07:20.582390900 +0800  // ---a代表第一个文件(原文件) a.txt在某个时间点修改的
+			+++ b.txt       2019-10-14 23:08:09.361645200 +0800  // ---b代表第二个文件(对比的文件) b.txt在某个时间点修改的
+			@@ -1,3 +1,6 @@ //-代表源文件 1代表从第几行比较，3代表比较3行  +代表对比的文件，6代表比较6行
+			 aaaaaa          //
+			 bbbbbbb		 //
+			 ccccccc		 // 两个文件这里内容一样，不做特殊标注，原样展示
+			+dddddd			 //
+			+eeeee			 //
+			+fff3213		 //站在原文件的角度，加上带加号的内容，和b文件就一致了
 
+	git diff  比较的是区中(工作区，暂存区，对象区)的文件
+	
+	暂存区 和 工作区 的差异  --> git diff 
+	
+	对象区 和 工作区 的差异  --> git diff sha1值 
+	最新提交的 对象区 和 工作区 的差异 --> git diff head
+	
+	对象区 和 暂存区 的差异 --> git diff --cached sha1值
+	最新提交的 对象区 和 暂存区 的差异 git diff --cached head
 				
 1.新建文件夹
 
