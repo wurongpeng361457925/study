@@ -1,0 +1,9 @@
+sessionStorage.getItem  
+	web Storage有两部分组成 sessionStorage和localStorage
+	sessionStorage:本地存储一个会话中的数据
+	localStorage：持久化的本地存储
+
+location.host  本机名和端口号
+location.hostname 只有本机名，上不包含端口号
+
+parent.window

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8">
+<!-- html的标签是预定义标签 xml标签是自定义标签，用于存储和传输数据 -->
+<!-- 第一行是xml声明，声明不属于xml文档的一部分，没有关闭标签；version是xml版本，encoding定义了使用的编码格式，
+	utf-8：万国码，可以显示各种语言 ，也是HTML5,javascript,php,css的默认编码-->
+<!--
+	xml语法标准：
+		1.所有标签都必须有关闭标签
+		2.标签对大小写敏感
+		3.所有元素必须正确嵌套
+		4.xml元素的属性值必须加引号
+		5.实体引用：xml中一些字符有特殊的意义，如< ,>等，可以用实体引用来替代<,>等这些符号
+			&lt;   ---  < less than
+			&gt;   ---  > greater than
+			&amp;  ---  & ampersand 与符号
+			&apos; ---  ' apostrophe 撇号
+			&quot; ---  " quotation mark 双引号
+			在xml中，只有<和&确实是非法的，大于号是合法的，但是用实体引用代替他是个好习惯
+		6.xml中，空格会被保留；HTML会把多个连续的空格字符裁剪合并为一个
+		
+	xml命名规则：
+		1.可以包含字母，数字及其其他的字符
+		2.不能以数字或者标点符号开始
+		3.不能以xml（包含xml的大小写）开始
+		4.不能包含空格
+	
+	最佳命名习惯：
+		避免 - 字符，会被认为减号处理
+		避免 . 字符，会被认为是标签的属性
+		避免 ：字符，会被认为是命名空间使用
+		xml文档经常有对应的数据库，其中表中的字段对应xml文档中的元素，可以用数据库
+			的命名规则来命名xml元素
+		使用éòá等非英文字母是合法的，但软件供应商不支持这些字符可能会出现问题
+		
+	xml属性：
+		属性attribute 提供有关元素的额外信息
+		<img src="computer.git">
+		<a href="demo.html">
+		属性值必须用引号包围，单引号双引号均可
+		<person sex="female">
+		<person sex='female'>
+		若属性值本身包含双引号，可以使用单引号
+		<ganster name='George "Shotgun" Ziegler'>
+		或者使用字符实体
+		<gangster name="George &quot;Shotgun&quot; Ziegler">
+		
+	使用xml属性引起的一些问题：
+		属性不能包含多个值（元素可以）
+		属性不能包含树结构 （元素可以）
+		属性不容易扩展     （为未来的变化）
+		属性难以阅读和维护，请尽量使用元素描述数据，而仅仅使用属性来提供与数据无关的信息
+		
+	针对元数据的xml属性：
+		<messages>
+			<node id="501">
+				<to>Tove</to>
+				<from>Jani</from>
+				<heading>Reminder</heading>
+				<body>Don't forget me this weekend!</body>
+			</node>
+			<node id="502">
+				<to>Jani</to>
+				<from>Tove</from>
+				<heading>Re: Reminder</heading>
+				<body>I will not</body>
+			</node>
+		</messages>
+		上面的ID属性仅仅是一个标识符，用于标识不同的标签。它并不是标签数据的组成部分。
+		元数据（描述数据的数据）应当存储为属性，数据本身应当存储为元素
+		
+	验证xml文档：
+		<?xml version="1.0" encoding="ISO-8859-1"?>
+		<!DOCTYPE note SYSTEM "Note.dtd">
+		<note>
+			<to>Tove</to>
+			<from>Jani</from>
+			<heading>Reminder</heading>
+			<body>Don't forget me this weekend!</body>
+		</note>
+		
+		DOCTYPE声明是对外部DTD文件的引用
+		<!DOCTYPE note
+		[
+		<!ELEMENT note (to,from,heading,body)>
+		<!ELEMENT to (#PCDATA)>
+		<!ELEMENT from (#PCDATA)>
+		<!ELEMENT heading (#PCDATA)>
+		<!ELEMENT body (#PCDATA)>
+		]>
+		
+		xml Schema:
+			w3c支持一种基于xml的dtd代替者---> xml schema
+			<xs:elememt name="note">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:elememt name="to" type="xs:string">
+						<xs:elememt name="from" type="xs:string">
+						<xs:elememt name="heading" type="xs:string">
+						<xs:elememt name="body" type="xs:string">
+					</xs:sequence>
+				</xs:complexType>
+			</xs:elememt>
+			
+	XMLHttpRequest对象：
+		所有现代浏览器（IE7,Firefox,Chrome,Safari,Opena）都有内建的XMLHttpRequest对象
+		创建XMLHttpRequest对象语法：
+			xmlhttp = new XMLHttpRequest();
+			旧版本的Internet Explorer（IE5和IE6）中使用activeX对象：
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			
+		xml Parser:
+			现代浏览器都有内建的xml解析器
+			xml解析器把xml文档转换为xml DOM对象--可通过JavaScript操作的对象
+			
+			把xml文档解析到xml DOM对象中：
+				if(window.XMLHttpRequest){
+					xmlhttp = new XMLHttpRequest();
+				}else{
+					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+					xmlhttp.open("GET","books.xml",false);
+					xmlhttp.send();
+					xmlDoc=xmlhttp.responseXML;
+				}
+				
+	跨域访问：
+		出于安全方面原因，现代浏览器不允许跨域访问
+		这以意味着，网页以及他试图加载的xml文件，都必须位于相同的服务器上
+		
+	xml DOM：
+		DOM：Document Object Model 文档对象模型，定义了访问和操作文档的标准方法
+		xml DOM把xml文档当做树结构来查看
+		所有元素可以通过DOM书来访问。增删改查他们的内容
+		元素，他们的文本，以及他们的属性，都被认为是节点
+		
+	xml 命名空间：
+		xml中命名冲突可以通过使用名称前缀从而容易的避免
+		<h:table>
+			<h:tr>
+				<h:td>Apples</h:td>
+				<h:td>Bananas</h:td>
+			</h:tr>
+		</h:table>
+		<f:table>
+			<f:name>African Coffee Table</f:name>
+			<f:width>80</f:width>
+			<f:length>120</f:length>
+		</f:table>
+		
+	xml命名空间-xmlns属性（xml name space）：
+		在xml中使用前缀时，一个所谓的用于前缀的命名空间必须被定义
+		命名空间是在元素的开始标签的xmlns属性中定义的
+		命名空间的语法：xmlns:前缀名="URI"
+		例如： <h:table xmlns:h="http://www.w3.org/TR/html4/"></h:table>
+		当命名空间被定义在元素的开始标签中时，所有带有相同前缀的子元素都会与同一个命名空间向关联
+		
+		命名空间，可以在他们被使用的元素中或者在xml根元素中声明：
+			<root xmlns:h="http://www.w3.org/TR/html4/"
+				  xmlns:f="http://www.w3cschool.cc/furniture">
+		命名空间URI不会解析器用于查找信息
+		其目的是赋予命名空间一个唯一的名称。
+		不过，很多公司常会作为指针来使用命名空间指向实际存在的网页，这个网页包含关于命名空间的信息
+		
+	统一资源标识符 URI--Uniform Resource identifier:
+		是一串可以标识因特网资源的字符
+		最常用的URI是用来标识因特网域名地址的统一资源定位器（URL）
+		另一个不常用的URI是统一资源命名（URN）
+		
+	默认的命名空间：
+		使用默认的命名空间，可以省去在所有的子元素中使用前缀的工作
+		语法：xmlns="namespaceURI"
+		<table xmlns="http://www.w3.org/TR/html4">
+			<tr>
+				<td>Apples</td>
+				<td>Bananas</td>
+			</tr>
+		</table>
+		
+		<table xmlns="http://www.w3schools.com/furniture"> 
+			<name>African Coffee Table</name>
+			<width>80</width>
+			<length>120</length>
+		</table>
+	
+	实际使用中的命名空间
+		XSLT是一种用于把xml文档转换为其他格式的xml语言，比如HTML
+		
+	xml CDATA
+		CDATA:区段中的文本会被解析器忽略
+			"<","&"字符在xml元素中都是非法的
+			"<"解析器会把该字符解释为新元素的开始
+			"&"解析器会把该字符解释为字符实体的开始
+			可以将脚本代码定义为CDATA
+			CDATA部分中的所有内容都会被解析器忽略
+			<script>
+				<![CDATA[
+					function matchwo(a,b){
+						if(a < b && a<0) then{
+							return 1;
+						}else{
+							return 0;
+						}
+					}
+				]]>
+			</script>
+		PCDATA:被解析的字符数据
+-->
+<note>
+	<to>Tove</to>
+	<from>jani</from>
+	<heading>Reminder</heading>
+	<body>Don't forget me this weekend!</body>
+</note>
