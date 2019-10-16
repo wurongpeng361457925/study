@@ -21,6 +21,7 @@ git的三种状态
 	已提交	--> commited
 	
 	add和commit组合--->先add再commit --> git commit -am '注释内容' 
+	git add * 添加到暂存区 .gitignore中的忽略文件也会被添加进暂存区(不推荐使用)
 		(第一次创建的时候此命令不能使用，之后提交就可以了)
 		
 	回退到上一次commit --> git reset --hard head^   ^表示一次  ^^表示两次...
@@ -61,6 +62,7 @@ cached,reset命令 --> 从暂存区回到工作区
 				分支名(master)指向当前提交(commit)
 				
 	查看分支：git branch
+					git branch -a 所有分支      git branch -av 所有分支处于的commit点
 	创建分支：git branch 分支名
 	切换分支：git checkout 分支名
 	创建并切换：git checkout -b 分支名
@@ -95,12 +97,17 @@ cached,reset命令 --> 从暂存区回到工作区
 分支合并与冲突
 	若一个分支(dev)考前，另一个分支(master)靠后，在不冲突的前提下，master可以通过merge直接追赶上dev，
 	合并之后master同样有dev的提交
-	这个追赶的动作称为 fast forward，其本质是指针的移动
+	这个追赶的动作称为 fast forward，其本质是指针的移动 ,pull动作也会触发此动作
 		1.两个分支在fast forward之后，会归为一处commit
 		2.fast forward之后 会丢失分支信息
 		
 	git在merge时，默认使用fast forward   
 	也已禁止使用fast forward 命令-->git merge 要合并的分支名 --no-ff
+	
+	合并分支时产生冲突：
+		解决冲突：git add xxx, git commit -m'xxx'
+				got add (告诉git冲突已解决)
+				解决冲突后，会进行两次提交，一次是最终提交，一次是将对方的提交commit信息也拿来了
 	
 checkout: git checkout sha1值   版本穿梭(游离状态)
 		1.
@@ -138,7 +145,59 @@ tag标签： 标签适用与整个项目的，与分支没关系，在a分支打
 	
 	对象区 和 暂存区 的差异 --> git diff --cached sha1值
 	最新提交的 对象区 和 暂存区 的差异 git diff --cached head
-				
+	
+push:本地->github
+pull:GitHub->本地  pull = fetch + merge
+push/pull 作用：推送拉取，改变指针(特指origin/master分支)
+github仓库中，默认的说明文档README.md
+
+
+
+本地推送到远程
+	两种推送方式
+		https  需要输入用户名or email 和密码
+		ssh		本地放私钥  远程放公钥
+			ssk-keygen 生成.ssh文件夹 (c盘 用户目录下)
+			可以将公钥 存放在两个地方
+				1.项目的setting中，当前项目和本机免密钥登陆
+				2.账号的setting中，账户的所有项目和本机面密钥登陆
+				注意：远程增加ssh时 1.删除公钥中最后的回车 2.可写权限打勾
+	1.git remote add origin https://github.com/xxx/xxx.git
+		git remote add 添加 标识为origin 的远程地址 (origin代表了仓库地址,origin可以换成其他名称)
+	2.git push -u origin master (第一次推送时，加 -u origin master，)
+		将本地master 和 远程 origin 关联起来
+		
+	git remote show origin 展示关联的远程仓库
+	git remote show   展示当前项目有几个远程(git是分布式版本控制，远程可以有多个)
+	git会在本地维护 origin/master分支，通过该分支，感知远程GitHub的内容
+	
+	git clone 远程地址 新起项目名  (不写项目名的话默认使用远程仓库的仓库名作为项目名)
+	
+冲突：
+	linux 删除文件中的整行：只读模式下，按两次d
+	set number :显示行号    6，9d：删除6到9行
+	git pull  = fetch + merge
+			fetch:网络没问题都会拉取成功
+			merge：有冲突会merge失败
+			<<<<<<<<本地内容
+			========分隔符
+			>>>>>>>>远程内容
+			
+	总结： pull ---> vi ---> add ---> commit ---> push
+	
+查看远程提交日志
+git log origin/master
+git log remotes/origin/master
+git log refs/remotes/origin/master
+	其实就是目录路径
+			
+删除命令： 
+	rm -rf * :当前目录中的文件，子文件目录全部删除(不会删除隐藏文件，删除动作不经过回收站)
+	rm。。。 -rf / :不要执行，这个是删除整个计算机中的全部文件
+md:文本编辑格式  类似 html，xml...
+			
+
+			
 1.新建文件夹
 
 2.进入文件夹-->右键git bash here，输入git init  会生成.git文件（隐藏文件）
