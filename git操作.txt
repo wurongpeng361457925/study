@@ -119,7 +119,7 @@ tag标签： 标签适用与整个项目的，与分支没关系，在a分支打
 	删除标签  ---> git tag -d v1.0
 	
 追责 blame： 查看a.txt的所有提交sha1值，以及每一行的作者(user)
-	git blame a.txt
+	git blame a.txt   blame：责任
 	
 差异性：diff  (linux命令)
 	diff 比的是文件本身
