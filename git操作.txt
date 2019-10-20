@@ -20,6 +20,7 @@ git的三种状态
 	已暂存  --> staged
 	已提交	--> commited
 	
+	撤销add  git checkout 撤销add的文件
 	add和commit组合--->先add再commit --> git commit -am '注释内容' 
 	git add * 添加到暂存区 .gitignore中的忽略文件也会被添加进暂存区(不推荐使用)
 		(第一次创建的时候此命令不能使用，之后提交就可以了)
@@ -35,7 +36,7 @@ git 设置邮箱，账户名  三种方式  global,system,local
 	1.global:给整个计算机一次性设置
 	2.system:给当前用户一次性设置  ~.gitconfig
 	3.local:给当前项目一次性设置  .git/config
-	可以直接打开文件编辑用户名和email
+	可以直接打开文件编辑用户名和email给i他
 	优先级：3>2>1  
 
 git 修改对象区内容，文件会重新回到工作区
@@ -171,7 +172,8 @@ github仓库中，默认的说明文档README.md
 	git remote show   展示当前项目有几个远程(git是分布式版本控制，远程可以有多个)
 	git会在本地维护 origin/master分支，通过该分支，感知远程GitHub的内容
 	
-	git clone 远程地址 新起项目名  (不写项目名的话默认使用远程仓库的仓库名作为项目名)
+	从远程拉项目到本地
+		git clone 远程地址 新起项目名  (不写项目名的话默认使用远程仓库的仓库名作为项目名)
 	
 冲突：
 	linux 删除文件中的整行：只读模式下，按两次d

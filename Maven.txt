@@ -1,0 +1,159 @@
+				Maven
+maven作用：
+	1.管理jar
+		一.增加第三方jar
+		二.jar包之间的依赖关系，自动关联下载所有依赖的jar包，且下载关联jar包是不会冲突
+		
+	2.将项目拆分成若干个模块
+
+Maven的概念：
+	是一个基于Java平台，自动化构建工具
+		make --> ant --> maven --> gradle
+		
+		约定优于配置：
+			硬编码方式：job.setpath("d:\\abc");
+			配置方式：conf.xml  <path>d:\\abc</path>
+			约定：使用默认值 d:\\abc
+				job
+		maven约定的目录结构
+			--src
+				--main  执行项目
+					--java 放java代码
+					--resource 放配置文件
+				--test  测试项目
+					--java
+					--resource
+			--pom.xml 项目对象模型  (将项目看作一个对象，与src同级)
+				(例如Dom,将标签看作一个对象)
+		eclipse也是构建工具(将Java源码编译成.class文件)
+		
+	清理：删除编译的东西(删除.class文件)，为重新编译做准备
+	编译：java源码 ---javac---> .class文件
+	测试：对于项目中的关键点进行测试，也可以用项目中的测试代码 去测试开发代码
+	报告：将测试的结果进行显示
+	打包：将项目中的多个文件 压缩成一个文件，用于安装或部署 (java ->jar,web->war)
+	安装：将打包的东西 放到本地仓库
+	部署：将打包的东西 放到服务器上
+		---将java,js,jsp等各种文件，进行筛选，组装，变成一个可以直接运行的项目
+		(部署，最终执行的不是项目本身，而是一个可运行的项目)
+		eclipse中的项目，在部署时，会生成一个对应的部署项目(在wtpwebapps中)
+			eclipse中部署 
+				1.通过Add and Remove进行部署
+				2.将web项目打成war包，将war包放入tomcat的webapps中就可以运行
+		区别：
+			tomcat中部署的项目，遵循tomcat的目录结构，否则无法直接运行
+	
+	maven常见命令：(要在pom.xml所在目录执行maven命令)
+		编译：mvn compile (需要maven基础组件，基础jar包，先从本地仓库找，没有的话去中央仓库找)
+					compile命令 只编译main目录下的源码，生成target目录，不编译test目录的源码
+		测试：mvn test (需要测试的基础环境，同样需要基础jar)
+		打包：mvn package 打成jar/war包
+		安装: mvn install 安装到本地仓库
+		删除：mvn clean 清除 清除target中的文件
+		
+	自动化构建工具Maven --->  将原材料(java,js,css,html,图片) 构建成为一个‘产品’(可发布的项目)
+	
+下载Maven
+	binary：二进制版
+	source：源代码版
+	gz：Linux版
+	zip:Windows版
+	
+	
+	本地仓库
+	
+	远程仓库
+		私服(通过nexus搭建)
+		中央仓库
+		中央仓库镜像(对中央仓库的分流操作)
+		
+maven依赖：
+	a.jar 依赖 b.jar中的某个文件，则说a依赖与b
+	
+	依赖的范围(依赖的有效性,三个：compile,test,provided， scope默认范围compile)
+					compile      test      provided
+		1.编译		a.jar         x			 a.jar
+		2.测试      a.jar         a.jar      a.jar
+		3.运行      a.jar         a.jar       x         (例如 servlet-api.jar)
+	
+	依赖排除
+		a.jar -> b.jar
+		当通过maven引入a.jar时，会自动引入b.jar
+	强调：
+		在pom.xml中增加完依赖后，需要 maven-->update project 
+			勾选 force update of Snapshots/Releases  强制更新快照/版本
+	
+	虽然在实际开发中，认为两个jar有依赖关系，但maven不这么认为，这时就需要手动导入依赖jar
+		例如 common-fileupload.jar 依赖 common-io.jar   有时需要手动引入io.jar
+			
+依赖的传递性：
+		a.jar ->b.jar -> c.jar
+		要使a.jar - c.jar   当且仅当b.jar依赖与 c.jar的范围是compile时 a.jar-> c.jar  
+							否则a.jar不依赖c.
+							
+依赖原则：为了防止依赖冲突
+	a.路径最短优先原则
+	b.路径长度相同：
+		1.在同一个pom.xml文件中 有两个相同的依赖(覆盖)：	
+				按pom.xml的顺序,后面的依赖覆盖前面的依赖
+		2.不同pom.xml中有两个相同依赖(优先)，则先声明的依赖，会覆盖后声明的依赖
+			
+maven生命周期
+	maven的生命周期和构建的关系
+		a b c d e 
+		当执行某个命令，会将在该命令之前的命令都执行一遍
+		
+	生命周期包含的阶段，三个阶段
+		clean lifecycle:清理
+			pre-clean clean post-clean
+			
+		default lifecycle：默认(常用)
+			
+			
+		site llifecycle:站点
+			pre-site site post-site site-deploy
+			
+		例如：
+			package命令：会依次执行一下命令
+				resources
+				compile
+				test
+				package
+		
+		
+eclipse创建maven项目，勾选create a simple project，
+	会创建一个不带resources目录的maven项目，需要手动创建resources	
+		
+eclipse中，文件夹带#的，是构建路径(类路径 source folder)，程序可以识别里面的java代码
+			不带#的，是一般的文件夹
+			
+统一项目中jdk版本：
+	第一种：build path:删除旧版本，增加新版本
+	第二种：右键项目 -> properties -> project facets -> java
+	第三种：通过maven 在pom.xml中增加如下配置
+		<profiles>
+		   <profile>
+			   <id>jdk-1.8</id>
+			   <!-- activation:激活 -->
+			   <activation>
+				   <activeByDefault>true</activeByDefault>
+				   <jdk>1.8</jdk>
+			   </activation>
+			   <properties>
+				   <maven.compiler.source>1.8</maven.compiler.source>
+				   <maven.compiler.target>1.8</maven.compiler.target>
+				   <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+			   </properties>
+		   </profile>
+		</profiles>
+		
+统一jar版本：
+	pom.xml中
+		<properties>
+			<junit.version>3.8</junit.version>   junit.version这个名称自定义，依赖中version标签引入
+		</properties>
+			<dependence>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+			</dependence>	
