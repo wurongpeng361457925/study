@@ -1,4 +1,4 @@
-git优势： 
+﻿git优势： 
 	本地版本控制 重写提交说明
 	
 分支系统：branch
@@ -63,7 +63,7 @@ cached,reset命令 --> 从暂存区回到工作区
 				分支名(master)指向当前提交(commit)
 				
 	查看分支：git branch
-					git branch -a 所有分支      git branch -av 所有分支处于的commit点
+		  git branch -a 所有分支      git branch -av 所有分支处于的commit点
 	创建分支：git branch 分支名
 	切换分支：git checkout 分支名
 	创建并切换：git checkout -b 分支名
