@@ -86,11 +86,42 @@ maven依赖：
 	虽然在实际开发中，认为两个jar有依赖关系，但maven不这么认为，这时就需要手动导入依赖jar
 		例如 common-fileupload.jar 依赖 common-io.jar   有时需要手动引入io.jar
 			
-依赖的传递性：
+依赖的传递性，两个 compile   继承： 
+			compile 
 		a.jar ->b.jar -> c.jar
 		要使a.jar - c.jar   当且仅当b.jar依赖与 c.jar的范围是compile时 a.jar-> c.jar  
-							否则a.jar不依赖c.
-							
+								否则a.jar不依赖c.
+								
+			继承：可以通过父工程，统一管理依赖的版本号
+		a继承于b，则a可以使用b的所有依赖
+		
+父工程打包方式为pom	，依赖写在 <dependencyManagement>
+	步骤：
+		父类	1.创建父工程 打包方式为pom	
+				2.父工程的pom.xml中编写
+					<dependencyManagement>
+						<dependencies>
+							<dependency>
+		子类	1.在子类中，继承一个父工程
+					<parent>加父类gav
+				2.当前工程pom.xml到父类pom.xml之间的相对路径
+					<parent>
+						<groupId>com.cmbc.testextends</groupId>
+						<artifactId>B</artifactId>
+						<version>0.0.1-SNAPSHOT</version>
+				3.当前工程的pom.xml到父工程的pom.xml之间的相对路径 relativePath 
+						<!-- 当前工程的pom.xml到父工程的pom.xml之间的相对路径 relativePath relative:相對-->
+						<relativePath>../B/pom.xml</relativePath>
+					  </parent>
+				4.在子类中，需要声明需要使用父类哪些依赖
+					<!-- 声明一下需要用到父类中哪些依赖  不需要version,scope标签-->
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+					
+		声明需要用到父类中哪些依赖
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+	
 依赖原则：为了防止依赖冲突
 	a.路径最短优先原则
 	b.路径长度相同：
@@ -157,3 +188,31 @@ eclipse中，文件夹带#的，是构建路径(类路径 source folder)，程�
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
 			</dependence>	
+			
+聚合工程：
+	maven项目能够识别的依赖：
+		1.自身包含的依赖
+		2.本地仓库中的依赖
+	
+	maven2依赖与maven1，则在执行时，必须先将maven1加入到本地仓库(install)，之后才能执行maven
+	
+	以上，前置工程的install操作，可以交由 “聚合” 一次搞定
+	
+	聚合的作用： 可以将拆分的多个子工程 合起来
+		在总工程MyProject中，配置聚合(聚合只能配置在打包方式为pom的maven工程中)
+		
+		<modules>
+			<module>../maven1</module>  项目的相对路径
+			<module>../maven2</module>  项目的顺序自由，maven自动识别依赖关系
+		</modules>
+		
+		clean命令：删除的是target目录
+		
+		配置完聚合module之后，只要操作总工程，则会自动操作该聚合工程中配置过的工程
+		
+	继承：可以通过父工程，统一管理依赖的版本号	
+	
+部署web工程：
+	a.配置cargo (dos命令行的方式运行)
+	b.maven命令 ：deploy 部署
+	
