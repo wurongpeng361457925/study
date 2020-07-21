@@ -1,0 +1,26 @@
+4.1 CLOB 数据类型
+
+   它存储单字节和多字节字符数据。支持固定宽度和可变宽度的字符集。CLOB对象可以存储最多 (4 gigabytes-1) * (database block size) 大小的字符
+
+4.2 NCLOB 数据类型
+
+   它存储UNICODE类型的数据，支持固定宽度和可变宽度的字符集，NCLOB对象可以存储最多(4 gigabytes-1) * (database block size)大小的文本数据。
+
+4.3 BLOB 数据类型
+
+   它存储非结构化的二进制数据大对象，它可以被认为是没有字符集语义的比特流，一般是图像、声音、视频等文件。BLOB对象最多存储(4 gigabytes-1) * (database block size)的二进制数据。
+
+4.4 BFILE 数据类型
+
+   二进制文件，存储在数据库外的系统文件，只读的，数据库会将该文件当二进制文件处理
+   
+   
+1.varchar是标准sql里面的。 varchar2是oracle提供的独有的数据类型。
+
+2.varchar对于汉字占两个字节，对于英文是一个字节，占的内存小，varchar2都是占两个字节。
+
+3.varchar对空串不处理，varchar2将空串当做null来处理。
+
+4.varchar存放固定长度的字符串，最大长度是2000，varchar2是存放可变长度的字符串，最大长度是4000.
+
+5.如果是要跟换不同的数据库，例如mysql，那么就用varchar，如果就用oracle，那么用varchar2比较好一点。
