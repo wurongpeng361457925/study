@@ -1,0 +1,10 @@
+﻿
+
+
+						字符编码
+
+ASCII:(American Standard Code for Information Interchange )目前使用最广泛了西文字符集,1961年提出,对应ISO-646标准	
+		包括128个可打印字符,32个控制字符
+		(A为65,a为97,相差32)
+			标准ASCII码是7位编码,但由于计算机基本处理单位是字节(1byte = 8bit),
+			所以仍以一个字节来存储一个ASCII字符
