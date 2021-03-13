@@ -1,6 +1,0 @@
-Jetty
-	jetty可以作为嵌入式的服务器
-	也是平台无关的服务器（windows/Linux）
-	jetty默认编码格式：UTF-8
-	tomcat默认编码格式：ISO-8859-1(在tomcat的conf目录下，server.xml中<connection 标签中加 URIEncoding="UTF-8">)
-	
