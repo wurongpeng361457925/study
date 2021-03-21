@@ -1189,7 +1189,7 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 
 - Docker安装时若不指定网络，会有一个默认网卡  docker0 （通过 ip addr可以看到），通过桥接模式(NAT)连接到物理网卡
 - Linux的虚拟网络化：veth-pair技术
-  - veth-pair技术： 全称 Virtual Ethernet Pair，是一个成对出现的端口。所有冲一端进入的数据包都会从另一端出来。引入Network Namespace实现了网络的隔离，使网络协议栈之间互不干扰。使用veth-pair实现NetworkNamespace间的数据通信
+  - veth-pair技术： 全称 Virtual Ethernet Pair，是一个成对出现的端口。所有一端进入的数据包都会从另一端出来。引入Network Namespace实现了网络的隔离，使网络协议栈之间互不干扰。使用veth-pair实现NetworkNamespace间的数据通信
   - veth-pair只能实现点对点的通信。可以通过网桥Bridge技术实现多个网络接口间的通信
 - 每次启动一个docker容器，不指定网络的情况下，都是docker0路由的。docker会分配一个ip给容器
 
@@ -1703,6 +1703,34 @@ Starting container 'viper-docker-springboot-container-01'
 10. 可以在idea控制台看到运行结果
 
     ![image-20210314011831887](C:\Users\alienware\AppData\Roaming\Typora\typora-user-images\image-20210314011831887.png)
+
+
+
+# Docker Compose
+
+Dockerfile一次只能创建一个镜像并启动
+
+Docker Compose可以轻松高效的管理运行多个容器
+
+注： Docker Compose没有在Docker服务中，需要另安装
+
+
+
+```bash
+1. 下载命令
+sudo curl -L "https://get.daocloud.io/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+2.将可执行权限应用于二进制文件：
+ sudo chmod +x /usr/local/bin/docker-compose
+```
+
+
+
+Docker Compose 关键词
+
+- Dockerfile 定义应用程序的环境
+- service
+- docker-compose.yml
+- 启动项目 docker compose up
 
 # Docker问题解决
 
