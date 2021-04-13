@@ -1710,7 +1710,7 @@ Starting container 'viper-docker-springboot-container-01'
 
 Dockerfile一次只能创建一个镜像并启动
 
-Docker Compose可以轻松高效的管理运行多个容器
+Docker Compose可以轻松高效的管理运行多个容器, 更适合集群部署等需求
 
 注： Docker Compose没有在Docker服务中，需要另安装
 
@@ -1777,3 +1777,72 @@ REPOSITORY   TAG       IMAGE ID   CREATED   SIZE #可以看到docker没有删除
 - 删除容器         docker rm 容器id/容器名称
 - 删除镜像         docker rmi 容器id/容器名称:版本号
 
+## Docker 部署zookeeper集群
+
+1. 编写配置文件docker-compose.yml
+
+   ```yaml
+   version: '3.1'
+   services:
+     zoo1:
+       image: zookeeper
+       restart: always
+       hostname: zoo1
+       ports:
+         - 2181:2181
+       environment:
+         ZOO_MY_ID: 1
+         ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+   
+     zoo2:
+       image: zookeeper
+       restart: always
+       hostname: zoo2
+       ports:
+         - 2182:2181
+       environment:
+         ZOO_MY_ID: 2
+         ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
+   
+     zoo3:
+       image: zookeeper
+       restart: always
+       hostname: zoo3
+       ports:
+         - 2183:2181
+       environment:
+         ZOO_MY_ID: 3
+         ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+   
+   ```
+
+   
+
+2.通过配置文件启动zookeeper集群
+
+```bash	
+docker-compose up -d
+```
+
+3.查看启动结果
+
+```bash
+[root@192 myprojects]# docker ps 
+CONTAINER ID   IMAGE       COMMAND                  CREATED          STATUS          PORTS                                                  NAMES
+af930ee8100d   zookeeper   "/docker-entrypoint.…"   14 minutes ago   Up 14 minutes   2888/tcp, 3888/tcp, 8080/tcp, 0.0.0.0:2183->2181/tcp   myprojects_zoo3_1
+ac2a260484ff   zookeeper   "/docker-entrypoint.…"   14 minutes ago   Up 14 minutes   2888/tcp, 3888/tcp, 8080/tcp, 0.0.0.0:2182->2181/tcp   myprojects_zoo2_1
+f14346495699   zookeeper   "/docker-entrypoint.…"   14 minutes ago   Up 14 minutes   2888/tcp, 3888/tcp, 0.0.0.0:2181->2181/tcp, 8080/tcp   myprojects_zoo1_1
+
+```
+
+Zookeeper集群配置信息
+
+server.A=B:C:D
+
+A,是一个数字，表示这个服务器的编号
+
+B，这个服务器的IP地址
+
+C，集群之间的通信端口
+
+D，Leader选举端口

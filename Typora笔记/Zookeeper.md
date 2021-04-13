@@ -4,7 +4,7 @@
 
 ZooKeeper 是 Apache 软件基金会的一个软件项目，Zookeeper 最早起源于雅虎研究院的一个研究小组。
 
-是一个**分布式应用协调服务**
+是一个**分布式应用协调服务**,服务治理的作用
 
 ## 作用
 
@@ -27,8 +27,8 @@ ZooKeeper 是 Apache 软件基金会的一个软件项目，Zookeeper 最早起�
 ## Zookeeper中的角色
 
 - leader           主节点        由有所节点投票产生  无主 --> 有主
-- follower       从节点        有选举权和投票权
-- observer       遵从节点    只对client提供查询和访问
+- follower       跟随节点        有选举权和投票权
+- observer       观察节点    只对client提供查询和访问
 - client             dubbo，java代码...   发送查询，修改请求
 - Proposal      提议
   - 每个提议会被封装成一个对象Znode Change
@@ -38,11 +38,13 @@ ZooKeeper 是 Apache 软件基金会的一个软件项目，Zookeeper 最早起�
 
 ## Zab协议
 
+Zookeeper Atomic Broadcast 原子广播协议
+
 Leader选举算法采用的是Zab协议
 
 Zab的核心思想是：当多数Server写入成功，则任务数据写入成功
 
-ZK能保证数据一致性主要依赖于Zab协议的消息广播，崩溃恢复，数据同步三个过程。
+ZK能保证数据一致性主要依赖于Zab协议的**消息广播，崩溃恢复，数据同步**三个过程。
 
 ### 消息广播
 
@@ -51,7 +53,7 @@ ZK能保证数据一致性主要依赖于Zab协议的消息广播，崩溃恢复
 2PC就是两阶段提交
 
 1. 一个事务请求进来之后，leader节点会将请求包装成提议Proposal事务，并添加一个全局唯一的64位递增事务id--zxid
-2. leader节点向集群其他节点广播proposal事务，节点之间的通信通过FIFO的消息队列。leader为每个follower节点分配一个单独的FIFO队列
+2. leader节点向集群其他节点广播proposal事务，节点之间的通信通过FIFO的消息队列（history queue）。leader为每个follower节点分配一个单独的FIFO队列
 3. follower会把收到的proposal事务持久化磁盘。完成之后发送一个ACK给leader
 4. leader接收到集群超过半数的ACK后，会提交leader本机上的事务
 5. leader广播commit，follower节点收到commit后，完成各自的事务提交
