@@ -2,12 +2,60 @@
 
 ## 概念
 
+
+
+## 权限
+
+- 功能权限
+- 访问权限
+- 菜单权限
+- 等等
+
 Spring Security是一个基于Spring的安全框架。提供全面的安全解决方案，在web请求级别和调用级别确认和授权。在Spring Framework基础上，Spring Security充分利用了依赖注入（DI） 和面向切面编程（AOP），为应用系统提供声明式的安全访问控制功能。是一个轻量级的安全框架，很好的集成了SpringMVC。
+
+Spring Security支持主流的认证方式,包括
+
+- HTTP基本认证
+- HTTP表单验证
+- HTTP摘要认证
+- openID
+- LDAP
+
+授权方面
+
+- 基于角色的访问控制
+- 访问控制列表 (Access Control List ,ACL)
 
 ## 核心功能
 
 1. 认证　Authentication　：用户是否为合法用户。
 2. 授权　Authorization　：　用户是否有权执行某个操作
+
+## 重要的类
+
+- WebSecurityConfigurerAdapter : 自定义Security策略( Spring Security核心配置类)
+
+- AuthenticationManagerBuilder : 自定义认证策略
+
+  - HTTP基本认证
+  - HTTP表单验证
+  - HTTP摘要认证
+  - openID
+  - LDAP
+
+- @EnableWebSecurity :  开启WebSecurity模式
+
+- GrantedAuthority接口:封装角色信息
+
+- BasicAuthenticationFilter类: 认证过滤器,重写doFilterInternal()
+
+  - 在Security核心配置类WebSecurityConfigurerAdapter上,添加
+
+    @enableGlobalMethodSecurity(securedEnable=true)注解,表示开启权限控制
+
+  - 在需要进行权限控制的方法上添加 @Secured("相应权限")
+
+
 
 ## 实现技术
 
@@ -128,13 +176,13 @@ fetch('api/user/1',{
 
 
 
-认证流程
+### 认证流程
 
 ![image-20210417140643530](C:\Users\alienware\AppData\Roaming\Typora\typora-user-images\image-20210417140643530.png)
 
 
 
-授权流程
+### 授权流程
 
 ![image-20210417141628558](C:\Users\alienware\AppData\Roaming\Typora\typora-user-images\image-20210417141628558.png)
 
