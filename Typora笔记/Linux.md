@@ -4,7 +4,7 @@
 
 ​	Linux 内核最初只是由芬兰人**林纳斯·托瓦兹（Linus Torvalds）**在赫尔辛基大学上学时出于个人爱好而编写的
 
-Linux 是一套免费使用和自由传播的**类 Unix 操作系统**，是一个基于 POSIX 和 UNIX 的**多用户、多任务、支持多线程和多 CPU** 的操作系统。
+Linux 是一套免费使用和自由传播的**类 Unix 操作系统**，是一个基于 POSIX（可移植操作系统接口 Portable Operating System Interface） 和 UNIX 的**多用户、多任务、多线程和多 CPU** 的操作系统。
 
 目前市面上较知名的发行版有：Ubuntu、**RedHat**、**CentOS**、Debian、Fedora、SuSE、OpenSUSE、Arch Linux、SolusOS 等。
 
@@ -13,6 +13,10 @@ Linux 是一套免费使用和自由传播的**类 Unix 操作系统**，是一�
 UNIX 操作系统由 肯·汤普森（Ken Thompson）和丹尼斯·里奇（Dernis Ritchie）发明,它的部分技术来源可追溯到从 **1965 年开始的 Multics 工程计划**，该计划由贝尔实验室、美国麻省理工学院和通用电气公司联合发起，目标是开发一种交互式的、具有多道程序处理能力的**分时操作系统**，以取代当时广泛使用的批处理操作系统。
 
 说明：**分时操作系统**使一台计算机可以同时**为多个用户服务**，连接计算机的终端用户交互式发出命令，操作系统采用**时间片轮转**的方式处理用户的服务请求并在终端上显示结果（操作系统将CPU的时间划分成若干个片段，称为**时间片**）。操作系统以时间片为单位，**轮流为每个终端用户服务，每次服务一个时间片**。
+
+*GNU*'s Not Unix，GNU的创始人，[理查德·马修·斯托曼](https://baike.baidu.com/item/理查德·马修·斯托曼)，是一个自由的[操作系统](https://baike.baidu.com/item/操作系统)，其内容软件完全以[GPL](https://baike.baidu.com/item/GPL)方式发布。
+
+GNU的内核，称为[Hurd](https://baike.baidu.com/item/Hurd)，是[自由软件基金会](https://baike.baidu.com/item/自由软件基金会)发展的重点，但是其发展尚未成熟。在实际使用上，多半使用[Linux内核](https://baike.baidu.com/item/Linux内核)、[FreeBSD](https://baike.baidu.com/item/FreeBSD)等替代方案，作为系统核心，其中主要的操作系统是Linux的发行版。[Linux](https://baike.baidu.com/item/Linux)操作系统包涵了[Linux内核](https://baike.baidu.com/item/Linux内核)与其他自由软件项目中的GNU组件和软件，可以被称为GNU/Linux
 
 ![d](C:\Users\alienware\Pictures\Saved Pictures\linux和unix关系.png)
 
@@ -164,9 +168,9 @@ tar -zxvf VMwareTools-10.3.32-15902021.tar.gz
 
 ## 基本介绍：
 
-1.Linux的文件系统采用级层式的树状目录结构，最上层是根目录 /，在更目录下再创建其他的目录
+1.Linux的文件系统采用级层式的**树状目录结构**，最上层是根目录 /，在更目录下再创建其他的目录
 
-2.Linux中，一切皆是文件
+2.Linux中，**一切皆是文件**
 
 ## Linux目录结构树状图：
 
@@ -1000,3 +1004,48 @@ ss -nap |grep java
 tcp6       0      0 :::8080                 :::*                    LISTEN      8624/java   
 ```
 
+# date命令
+
+```bash
+# date 显示时间
+root@DESKTOP-A7IOA9J:/# date                                                                                            Sun Apr 18 08:18:13 CST 2021   
+
+# 指定时间格式 date +"%Y-%m-%d"
+root@DESKTOP-A7IOA9J:/# date +"%Y-%m-%d"                                                                                2021-04-18  
+
+# 指定时间格式，时区
+root@DESKTOP-A7IOA9J:/# date +"%Y-%m-%d %k-%M-%S %Z"                                                                    2021-04-18  8-21-50 CST 
+
+# date -s "2021/4/18 8:25"  设置系统时间
+```
+
+%n : 下一行
+%t : 跳格
+%H : 小时(00-23)
+%I : 小时(01-12)
+%k : 小时(0-23)
+%l : 小时(1-12)
+%M : 分钟(00-59)
+%p : 显示本地 AM 或 PM
+%r : 直接显示时间 (12 小时制，格式为 hh:mm:ss [AP]M)
+%s : 从 1970 年 1 月 1 日 00:00:00 UTC 到目前为止的秒数
+%S : 秒(00-60)
+%T : 直接显示时间 (24 小时制)
+%X : 相当于 %H:%M:%S
+%Z : 显示时区
+%a : 星期几 (Sun-Sat)
+%A : 星期几 (Sunday-Saturday)
+%b : 月份 (Jan-Dec)
+%B : 月份 (January-December)
+%c : 直接显示日期与时间
+%d : 日 (01-31)
+%D : 直接显示日期 (mm/dd/yy)
+%h : 同 %b
+%j : 一年中的第几天 (001-366)
+%m : 月份 (01-12)
+%U : 一年中的第几周 (00-53) (以 Sunday 为一周的第一天的情形)
+%w : 一周中的第几天 (0-6)
+%W : 一年中的第几周 (00-53) (以 Monday 为一周的第一天的情形)
+%x : 直接显示日期 (mm/dd/yy)
+%y : 年份的最后两位数字 (00.99)
+%Y : 完整年份 (0000-9999)

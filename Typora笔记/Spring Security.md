@@ -129,7 +129,7 @@ JWT : Json Web Token
 
 ## JWT流程
 
-一般是在请求头离加入Authorization,并加上Bearer标注
+一般是在请求头中加入Authorization,并加上Bearer标注
 
 ```http
 fetch('api/user/1',{
