@@ -427,4 +427,3 @@ paxos 使用的是 消息传递 通信模型
 4. leader统计超过半数的follower修改成功，就认为修改成功
 5. leader将信息发送给zkServer，zkServer将信息返回给client             
 
-。。
